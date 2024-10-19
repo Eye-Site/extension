@@ -67,13 +67,13 @@ function addContent(image, data) {
     const div = document.createElement('div')
     div.setAttribute('class', 'eyesite')
 
-    const img = document.createElement('img')
-    img.setAttribute('src', 'EyeSite_yellow_transparent.png')
-    img.setAttribute('alt', '')
+    // const img = document.createElement('img')
+    // img.setAttribute('src', 'EyeSite_yellow_transparent.png')
+    // img.setAttribute('alt', '')
 
     const p = document.createElement('p')
     
-    div.appendChild(img)
+    // div.appendChild(img)
     div.appendChild(p)
 
     image.insertAdjacentElement('afterend', div)
