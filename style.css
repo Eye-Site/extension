@@ -1,6 +1,21 @@
 body {
-    background-color: black;
-    color: white;
+    background: #c5dbff;
+    color: #02083b;
+}
+
+main {
+    border-radius: 50px;
+}
+
+button {
+    background-color: #02083b; /* Dark background for the button */
+    color: #ffffff; /* White text color for contrast */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 0.5rem 1rem; /* Padding for size */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
 }
 
 h1 {
