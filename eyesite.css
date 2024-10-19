@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700');
 
 .eyesite {
-    background: #c5dbff;
-    color: #02083b;
-    padding: 1rem;
-    width: fit-content;
-    border-radius: 20px;
+    background: #c5dbff !important;
+    color: #02083b !important;
+    padding: 1rem !important;
+    width: fit-content !important;
+    min-width: 500px !important;
+    border-radius: 20px !important;
     /* padding: 15px; */
-    margin: 10px;
-    font-family: 'Quicksand', 'Courier New', Courier, monospace;
+    margin: 10px !important;
+    font-family: 'Quicksand', 'Courier New', Courier, monospace !important;
 }

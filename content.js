@@ -1,6 +1,41 @@
 if (typeof data === 'undefined') {
     var data = "placeholder text for testing";
 }
+async function handleImage(imageUrl) {
+    let eyeUrl = new URL(imageUrl);
+    let pathnameWithoutExtension = eyeUrl.pathname.replace(/\.[^/.]+$/, '');
+
+    var img = Array.from(document.querySelectorAll('img')).find(image => image.src.includes(pathnameWithoutExtension));
+
+    if (img) {
+        try {
+            const base64 = await convertToBase64(img);
+            const lines = await rek(base64);
+            console.log(lines);
+        } catch (error) {
+            console.error('Error converting image to Base64:', error);
+        }
+    } else {
+        console.log(`No image found with pathname: ${pathnameWithoutExtension}`);
+    }
+}
+
+
+function convertToBase64(img) {
+    return new Promise((resolve, reject) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        ctx.drawImage(img, 0, 0);
+
+        const base64Image = canvas.toDataURL();
+
+        resolve(base64Image);
+    });
+}
 
 async function rek(base64) {
     const response = await fetch('https://ckgqos29n6.execute-api.us-east-1.amazonaws.com/dev', {
@@ -9,13 +44,20 @@ async function rek(base64) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            base64_image: base64
+            "base64_image": base64
         })
     });
-    const data = await response.json();
-    console.log(data.ocrText);
-    return data.ocrText;
+
+    const responseData = await response.json();
+    const parsedData = JSON.parse(responseData.body);
+    console.log(parsedData);
+
+    const lines = parsedData.lines;
+    console.log(lines);
+    return lines;
 }
+
+
 
 function addContent(image, data) {
     const alt = image.getAttribute('alt') || data;
@@ -38,20 +80,6 @@ function addContent(image, data) {
     addStyles()
 }
 
-function handleImage(imageUrl) {
-    let eyeUrl = new URL(imageUrl);
-    
-    let pathnameWithoutExtension = eyeUrl.pathname.replace(/\.[^/.]+$/, '');
-
-    var img = Array.from(document.querySelectorAll('img')).find(image => image.src.includes(pathnameWithoutExtension));
-    
-    if (img) {
-        convertToBase64(img);
-    } else {
-        console.log(`No image found with pathname: ${pathnameWithoutExtension}`);
-    }
-}
-
 function addStyles() {
     const style = document.createElement('link');
     style.rel = 'stylesheet';
@@ -60,20 +88,3 @@ function addStyles() {
     document.head.appendChild(style);
 }
 
-function convertToBase64(img) {
-    if (!img.crossOrigin) {
-        img.crossOrigin = 'anonymous';
-    }
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-    const dataURL = canvas.toDataURL('image/png');
-    let base64 = dataURL.replace(/^data:image\/(png|jpeg|webp);base64,/, '');
-    rek(base64).then((text) => {
-        addContent(img, text);
-    }).catch(error => {
-        console.error("Error processing image: ", error);
-    });    
-}
