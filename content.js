@@ -11,7 +11,7 @@ async function handleImage(imageUrl) {
         try {
             const base64 = await convertToBase64(img);
             const lines = await rek(base64);
-            console.log(lines);
+            addContent(img, lines)
         } catch (error) {
             console.error('Error converting image to Base64:', error);
         }
@@ -53,8 +53,10 @@ async function rek(base64) {
     console.log(parsedData);
 
     const lines = parsedData.lines;
+    const ocrText = lines.join(' ')
+    console.log(ocrText)
     console.log(lines);
-    return lines;
+    return ocrText;
 }
 
 
