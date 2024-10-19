@@ -39,18 +39,16 @@ function addContent(image, data) {
 }
 
 function handleImage(imageUrl) {
-    var img = document.querySelector(`img[src="${imageUrl}"]`);
-    console.log(img)
-    if (imageUrl.startsWith('http')) {
-        const urlObj = new URL(imageUrl);
-        imageUrl = urlObj.pathname;
-        img = document.querySelector(`img[src="${imageUrl}"]`)
-        console.log(imageUrl)
-    }
+    let eyeUrl = new URL(imageUrl);
+    
+    let pathnameWithoutExtension = eyeUrl.pathname.replace(/\.[^/.]+$/, '');
+
+    var img = Array.from(document.querySelectorAll('img')).find(image => image.src.includes(pathnameWithoutExtension));
+    
     if (img) {
         convertToBase64(img);
     } else {
-        console.log(`Image not found: ${imageUrl}`);
+        console.log(`No image found with pathname: ${pathnameWithoutExtension}`);
     }
 }
 
